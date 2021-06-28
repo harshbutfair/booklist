@@ -101,8 +101,16 @@ class Store {
 
     }
 
-    static removeBook() {
+    static removeBook(isbn) {
+        const books = Store.getBooks();
 
+        books.forEach(function(book, index){
+            if(book.isbn === isbn){
+                books.splice(index, 1);
+            }
+        });
+        
+        localStorage.setItem('books', JSON.stringify(books));
     }
 }
 
@@ -161,6 +169,9 @@ function(e){
 
     // Remove list
     ui.deleteBook(e.target);
+
+    // Remove from LS
+    Store.removeBook(e.target.parentElement.previousElementSibling.textContent);
 
     e.preventDefault();
 });
